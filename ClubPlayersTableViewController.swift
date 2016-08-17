@@ -11,8 +11,16 @@ import CoreData
 
 class ClubPlayersTableViewController: UITableViewController {
     
+    //Holds a reference to the PlayerInfo business controller
     var playerInfo = PlayerInfo()
+    
+    //Holds an array of playerInfoEntity objects
     var playerInfoList = Array<PlayerInfoEntity>()
+    
+    //Holds a reference to the currently selected ClubEntity object.
+    
+    var clubEntity : ClubEntity!
+    
     
     // Pass this variable thru from perform segue from the clubListTable
     
@@ -49,11 +57,16 @@ class ClubPlayersTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.playerInfo.managedObjectContext = self.clubEntity.managedObjectContext!
+        
+        
+        
         //self.playerInfo.getAllEntitiesByDisplayOrder()
         // Returns an array of PlayerInfoEntities matched by ClubId
         self.playerInfo.getPlayersForClubID(clubNameSegueValue)
 		
 		
+        
         let sortDescriptor = NSSortDescriptor(key: "displayOrder", ascending: true)
         let playerClubMatchingPredicate = NSPredicate(format: "clubID = %@", "Woodside")
         

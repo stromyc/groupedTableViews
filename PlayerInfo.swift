@@ -102,7 +102,9 @@ class PlayerInfo<T:PlayerInfoEntity>: ABusinessObject<T> {
         playerInfoEntity.name = desc
         playerInfoEntity.clubID = club
         
-        
+        let playerWithClub = playerInfoEntity.club
+        playerWithClub?.setValue("TEST OF THE CLUB", forKeyPath: "clubName")
+
         
         
         

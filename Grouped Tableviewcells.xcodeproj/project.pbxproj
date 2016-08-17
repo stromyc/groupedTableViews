@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7F1DFD7A1D57B4060026AC19 /* CreateNewPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD791D57B4060026AC19 /* CreateNewPlayerViewController.swift */; };
 		7F1DFD7C1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD7B1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift */; };
+		7F1DFD801D63B9C50026AC19 /* EloCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD7F1D63B9C50026AC19 /* EloCalculator.swift */; };
 		7F6759AB1D52A63D00CD66E2 /* ClubCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6759AA1D52A63D00CD66E2 /* ClubCreationViewController.swift */; };
 		7FBDCF651D4F9C90007B6B66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBDCF641D4F9C90007B6B66 /* AppDelegate.swift */; };
 		7FBDCF6A1D4F9C90007B6B66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FBDCF681D4F9C90007B6B66 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		7F1DFD791D57B4060026AC19 /* CreateNewPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewPlayerViewController.swift; sourceTree = "<group>"; };
 		7F1DFD7B1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDetailTableTableViewController.swift; sourceTree = "<group>"; };
+		7F1DFD7F1D63B9C50026AC19 /* EloCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EloCalculator.swift; sourceTree = "<group>"; };
 		7F6759AA1D52A63D00CD66E2 /* ClubCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClubCreationViewController.swift; sourceTree = "<group>"; };
 		7FBDCF611D4F9C8F007B6B66 /* Grouped Tableviewcells.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grouped Tableviewcells.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FBDCF641D4F9C90007B6B66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,8 +70,8 @@
 		7FBDCF841D4F9C90007B6B66 /* Grouped_TableviewcellsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grouped_TableviewcellsUITests.swift; sourceTree = "<group>"; };
 		7FBDCF861D4F9C90007B6B66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FBDCF941D4FEC4C007B6B66 /* ScoringTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ScoringTableViewController.swift; path = "Grouped Tableviewcells/ScoringTableViewController.swift"; sourceTree = "<group>"; };
-		7FBDCF961D4FEE89007B6B66 /* PlayerOneSelectorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerOneSelectorTableViewController.swift; sourceTree = "<group>"; };
-		7FBDCF981D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerTwoSelectorTableViewController.swift; sourceTree = "<group>"; };
+		7FBDCF961D4FEE89007B6B66 /* PlayerOneSelectorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerOneSelectorTableViewController.swift; path = "Grouped Tableviewcells/PlayerOneSelectorTableViewController.swift"; sourceTree = "<group>"; };
+		7FBDCF981D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerTwoSelectorTableViewController.swift; path = "Grouped Tableviewcells/PlayerTwoSelectorTableViewController.swift"; sourceTree = "<group>"; };
 		7FBDCF9E1D4FF05B007B6B66 /* mmBusinessObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mmBusinessObject.swift; sourceTree = "<group>"; };
 		7FBDCFA01D4FF0DA007B6B66 /* ABusinessObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABusinessObject.swift; sourceTree = "<group>"; };
 		7FBDCFA61D4FF1BA007B6B66 /* groupedTableviewCells.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = groupedTableviewCells.xcdatamodel; sourceTree = "<group>"; };
@@ -110,12 +112,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F1DFD7E1D63B9A10026AC19 /* EloCalculator */ = {
+			isa = PBXGroup;
+			children = (
+				7F1DFD7F1D63B9C50026AC19 /* EloCalculator.swift */,
+			);
+			name = EloCalculator;
+			sourceTree = "<group>";
+		};
+		7F1DFD811D63B9E20026AC19 /* PlayerScoringVC */ = {
+			isa = PBXGroup;
+			children = (
+				7FBDCF961D4FEE89007B6B66 /* PlayerOneSelectorTableViewController.swift */,
+				7FBDCF981D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift */,
+			);
+			name = PlayerScoringVC;
+			sourceTree = "<group>";
+		};
 		7FBDCF581D4F9C8F007B6B66 = {
 			isa = PBXGroup;
 			children = (
+				7FBDCF631D4F9C8F007B6B66 /* Grouped Tableviewcells */,
+				7F1DFD7E1D63B9A10026AC19 /* EloCalculator */,
 				7FBDCFC11D500F07007B6B66 /* Business Layer */,
 				7FBDCFC01D500EDB007B6B66 /* Views */,
-				7FBDCF631D4F9C8F007B6B66 /* Grouped Tableviewcells */,
 				7FBDCF9B1D4FF002007B6B66 /* Coredata */,
 				7FBDCF781D4F9C90007B6B66 /* Grouped TableviewcellsTests */,
 				7FBDCF831D4F9C90007B6B66 /* Grouped TableviewcellsUITests */,
@@ -136,8 +156,6 @@
 		7FBDCF631D4F9C8F007B6B66 /* Grouped Tableviewcells */ = {
 			isa = PBXGroup;
 			children = (
-				7FBDCF961D4FEE89007B6B66 /* PlayerOneSelectorTableViewController.swift */,
-				7FBDCF981D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift */,
 				7FBDCF641D4F9C90007B6B66 /* AppDelegate.swift */,
 				7FBDCF681D4F9C90007B6B66 /* Main.storyboard */,
 				7FBDCF6B1D4F9C90007B6B66 /* Assets.xcassets */,
@@ -181,6 +199,7 @@
 				7F6759AA1D52A63D00CD66E2 /* ClubCreationViewController.swift */,
 				7F1DFD791D57B4060026AC19 /* CreateNewPlayerViewController.swift */,
 				7F1DFD7B1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift */,
+				7F1DFD811D63B9E20026AC19 /* PlayerScoringVC */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -337,6 +356,7 @@
 				7FBDCFC71D501731007B6B66 /* ClubListTableViewController.swift in Sources */,
 				7F1DFD7A1D57B4060026AC19 /* CreateNewPlayerViewController.swift in Sources */,
 				7FBDCFB11D500AA2007B6B66 /* ClubMatchRecord.swift in Sources */,
+				7F1DFD801D63B9C50026AC19 /* EloCalculator.swift in Sources */,
 				7F6759AB1D52A63D00CD66E2 /* ClubCreationViewController.swift in Sources */,
 				7FBDCFB31D500AA2007B6B66 /* PlayerInfo.swift in Sources */,
 				7FBDCF991D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift in Sources */,

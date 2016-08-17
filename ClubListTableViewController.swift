@@ -62,14 +62,25 @@ class ClubListTableViewController: UITableViewController {
         
         print(club.entityList.count)
        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+      // Adds an edit button to top navigation bar.
+        self.navigationItem.leftBarButtonItem =
+            self.editButtonItem()
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
+       //Saves editing of tableview cells
+        
+        
+        
     }
 
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if !editing {
+            self.club.saveEntities()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -115,24 +126,25 @@ class ClubListTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+        if editingStyle ==  UITableViewCellEditingStyle.Delete {
             // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            self.club.deleteEntity(self.club.entityList[indexPath.row])
+            self.club.entityList.removeAtIndex(indexPath.row)
+            
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
     }
-    */
+    
 
-    /*
+    
     // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+    override func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        self.club.moveObjectAtIndexPath(sourceIndexPath, destinationIndexPath: destinationIndexPath)
     }
-    */
+    
 
     /*
     // Override to support conditional rearranging of the table view.
@@ -194,6 +206,8 @@ class ClubListTableViewController: UITableViewController {
         let titleToPass = clubNameEntity.clubName
         control.titleOfPage = titleToPass
         control.clubNameSegueValue = titleToPass
+        
+        control.clubEntity = self.club.entityList[path.row]
     }
 	
 	func prepareForScoringView(segue: UIStoryboardSegue) {

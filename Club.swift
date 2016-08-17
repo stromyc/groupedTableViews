@@ -27,6 +27,50 @@ class Club<T: ClubEntity>: ABusinessObject<T> {
         self.entityList = self.getAllEntitiesSortedBy(sortDescriptor)
         return self.entityList!
     }
+    
+    
+    
+    func moveObjectAtIndexPath(sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) {
+        
+        let from = sourceIndexPath.row
+        let to = destinationIndexPath.row
+        
+        if from == to {
+            return
+        }
+        
+        // Get the entity to be reordered, remove it from
+        // its old position and add it in its new position
+        let toDoEntity = self.entityList[from]
+        self.entityList.removeAtIndex(from)
+        self.entityList.insert(toDoEntity, atIndex: to)
+        
+        // Set the new order of the object
+        var lower = 0.0
+        var upper = 0.0
+        
+        // Check for an item before it
+        if to > 0 {
+            lower = Double(self.entityList[to-1].displayOrder)
+        }
+        else {
+            lower = Double(self.entityList[1].displayOrder) - 2.0
+        }
+        
+        // Check for an item after it
+        if to < self.entityList.count - 1 {
+            upper = Double(self.entityList[to + 1].displayOrder)
+        }
+        else {
+            upper = Double(self.entityList[to - 1].displayOrder) + 2.0
+        }
+        
+        // Add the upper and lower, divide by two
+        // to derive the new order
+        let newOrder = (lower + upper) / 2.0
+        toDoEntity.displayOrder = newOrder
+    }
+
 
     
     // Create a new entity with the specified description, add it to the list

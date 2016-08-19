@@ -10,8 +10,20 @@ import Foundation
 import CoreData
 
 
+protocol ScoreMatchDelegate {
+	func calculatePlayerNewScore(player: PlayerInfoEntity) -> Double
+	func updatePlayerScore()
+	
+}
+
 class PlayerInfo<T:PlayerInfoEntity>: ABusinessObject<T> {
 
+	
+	
+	var delegate: ScoreMatchDelegate?
+	
+	
+	
 // Insert code here to add functionality to your managed object subclass
     var entityList: Array<T>!
     

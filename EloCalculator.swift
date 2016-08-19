@@ -8,8 +8,14 @@
 
 import Foundation
 
-class EloRatingCalculator {
-    
+class EloCalculator : ScoreMatchDelegate {
+	
+	
+	func calculatePlayerNewScore(player: PlayerInfoEntity) -> Double {
+		scoreOpponents(player, playerTwo: <#T##PlayerInfoEntity#>, kFactor: <#T##EloCalculator.KFactor#>)
+	}
+	
+	
     var ratingPlayerOne : Float = 0.0
     var ratingPlayerTwo : Float = 0.0
     
@@ -64,9 +70,59 @@ class EloRatingCalculator {
     // K = KFactor 20,30,40
     // Sa = Score 1 = win, 0 = loss, .5 = draw
     // EaNew = rA + K(Sa - Ea)
-    
+	
+	func scoreOpponents( playerOne : PlayerInfoEntity, playerTwo : PlayerInfoEntity, kFactor: KFactor = KFactor.thirty) -> (playerOneNewScore: Float, playerTwoNewScore: Float) {
+		
+		var ratingA = playerOne.score as Float
+		var ratingB = playerTwo.score as Float
+		
+		// Determines expected rating.
+		func eRating(ratingA: Float, ratingB: Float) -> Float {
+			let exponent = (ratingB - ratingA)/400
+			let raised = pow(10, exponent)
+			return 1 / (raised + 1)
+		}
+		
+		
+		// Calculate the expected rating for each player.
+		var aExpectedScore = eRating(ratingA, ratingB: ratingB)
+		var bExpectedScore = eRating(ratingB, ratingB: ratingA)
+		
+		// Score for match 1 = win, 0 = lost, .5 = draw
+		var aScore = playerOne.score as Float
+		var bScore: Float {
+			
+			
+			// Returns the opposite score for the opponent or draw.
+			switch aScore {
+			case 1.0 : return 0.0
+			case 0.5 : return 0.5
+			case 0.0 : return 1.0
+			default : return 9999.0
+			}
+			
+			
+		}
+		
+		let aNewElo = (kFactor.currentKFactor * (aScore - aExpectedScore)) + ratingA
+		
+		ratingPlayerOne = aNewElo
+		
+		let bNewElo = (kFactor.currentKFactor * (bScore - bExpectedScore)) + ratingB
+		
+		ratingPlayerTwo = bNewElo
+		
+		return (round(aNewElo), round(bNewElo))
+		
+		
+		
+	}
+	
+	
+	
+	
     func newEloRating(ratingA: Float, ratingB: Float, playerOneScore: Outcome, kFactor: KFactor) -> (playerOneElo: Float, playerTwoElo: Float) {
-        
+		
         // Determines expected rating.
         func eRating(ratingA: Float, ratingB: Float) -> Float {
             let exponent = (ratingB - ratingA)/400

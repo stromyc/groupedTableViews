@@ -10,17 +10,13 @@ import Foundation
 import CoreData
 
 
-protocol ScoreMatchDelegate {
-	func calculatePlayerNewScore(player: PlayerInfoEntity) -> Double
-	func updatePlayerScore()
-	
-}
+
 
 class PlayerInfo<T:PlayerInfoEntity>: ABusinessObject<T> {
 
 	
 	
-	var delegate: ScoreMatchDelegate?
+	
 	
 	
 	

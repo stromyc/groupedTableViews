@@ -10,22 +10,44 @@ import UIKit
 
 class PlayerTwoSelectorTableViewController: UITableViewController {
 
-	var playerInfo = PlayerInfo()
-	var playerInfoList = Array<PlayerInfoEntity>()
 	
+	// playerInfoEntity created at viewDidload or passed in from VC segue.
+	var playerInfo : PlayerInfo<PlayerInfoEntity>?
+	var playerInfoList = Array<PlayerInfoEntity>()
+	// Check to see if playerInfo
+	var playerInfoPreSet: Bool = false
+	
+	var playerTwoEntity: PlayerInfoEntity?
 	var playerTwoSelectedEntity: PlayerInfoEntity!
+	
+	
+	
+	
+	
+//	var playerInfo = PlayerInfo()
+//	var playerInfoList = Array<PlayerInfoEntity>()
+//	
+//	var playerTwoSelectedEntity: PlayerInfoEntity!
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		if playerInfo == nil {
+			self.playerInfo = PlayerInfo()
+			self.playerInfo!.getAllEntitiesByDisplayOrder()
+			// Returns an array of PlayerInfoEntities matched by ClubId
+		}
+		
+		
+		
 
-		self.playerInfo.getAllEntitiesByDisplayOrder()
+		//self.playerInfo.getAllEntitiesByDisplayOrder()
 		// Returns an array of PlayerInfoEntities matched by ClubId
 
 		//let sortDescriptor = NSSortDescriptor(key: "displayOrder", ascending: true)
 		//let playerClubMatchingPredicate = NSPredicate(format: "clubID = %@", "Woodside")
 		
-		self.playerInfoList = self.playerInfo.getAllEntitiesByDisplayOrder()
+		self.playerInfoList = self.playerInfo!.getAllEntitiesByDisplayOrder()
 		
 	}
 	
@@ -43,14 +65,28 @@ class PlayerTwoSelectorTableViewController: UITableViewController {
 	
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		// #warning Incomplete implementation, return the number of rows
-		return self.playerInfo.entityList.count
+		guard let numberOfRowsInSect = self.playerInfo?.entityList.count else {
+			print("PlayerInfo not Set for TableView numberOfRowsInSection !!")
+			return 0
+		}
+		return numberOfRowsInSect
+		
+		
+		
+		//return self.playerInfo.entityList.count
 	}
 	
 	
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCellWithIdentifier("playerTwoCell", forIndexPath: indexPath)
 		
-		let playerInfoEnity = self.playerInfo.entityList[indexPath.row]
+		guard let playerInfoEnity = self.playerInfo?.entityList[indexPath.row] else {
+			print("No playerInfoEnity for cellForRowAtPath")
+			return cell
+		}
+		
+		
+		//let playerInfoEnity = self.playerInfo.entityList[indexPath.row]
 		cell.textLabel?.text = playerInfoEnity.name
 		cell.detailTextLabel?.text = playerInfoEnity.clubID
 		//cell.textLabel?.text = "Test of table View"
@@ -65,7 +101,7 @@ class PlayerTwoSelectorTableViewController: UITableViewController {
 			print("index path: \(indexPath)")
 			// Save the ShipmentEntity for this row
 			// on the ShipmentViewController
-			self.playerTwoSelectedEntity = self.playerInfo.entityList[indexPath!.row]
+			self.playerTwoSelectedEntity = self.playerInfo!.entityList[indexPath!.row] //FIX this with guard
 			//self.playerInfoList[indexPath!.row]
 			
 			// Save the Shipment business controller
@@ -74,6 +110,10 @@ class PlayerTwoSelectorTableViewController: UITableViewController {
 			print("Unwind save two called")
 			
 		}
+		
+		
+		
+		
 	}
 
 }

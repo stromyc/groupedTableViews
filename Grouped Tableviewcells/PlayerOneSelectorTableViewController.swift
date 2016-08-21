@@ -13,22 +13,31 @@ class PlayerOneSelectorTableViewController: UITableViewController {
 	
 	
 	
-	var playerInfo = PlayerInfo()
+	// playerInfoEntity created at viewDidload or passed in from VC segue.
+	var playerInfo : PlayerInfo<PlayerInfoEntity>?
 	var playerInfoList = Array<PlayerInfoEntity>()
+	// Check to see if playerInfo
+	var playerInfoPreSet: Bool = false
 	
+	var playerOneEntity: PlayerInfoEntity?
 	var playerOneSelectedEntity: PlayerInfoEntity!
 	
 
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		self.playerInfo.getAllEntitiesByDisplayOrder()
+		print("did playeroneentity get passed:  \(playerOneEntity)")
+		
+		if playerInfo == nil {
+			self.playerInfo = PlayerInfo()
+		  self.playerInfo!.getAllEntitiesByDisplayOrder()
 		// Returns an array of PlayerInfoEntities matched by ClubId
+		}
 		
 		//let sortDescriptor = NSSortDescriptor(key: "displayOrder", ascending: true)
 		//let playerClubMatchingPredicate = NSPredicate(format: "clubID = %@", "Woodside")
 		
-		self.playerInfoList = self.playerInfo.getAllEntitiesByDisplayOrder()
+		self.playerInfoList = self.playerInfo!.getAllEntitiesByDisplayOrder()
  
 	}
 
@@ -46,14 +55,22 @@ class PlayerOneSelectorTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.playerInfo.entityList.count
-    }
+		var numberOfRows : Int?
+		guard  let numberOfRowsInSection = self.playerInfo?.entityList.count else {
+			print("PlayerInfo not Set for Tableview numberOfRowsInSection")
+			return 0
+		}
+			numberOfRows = numberOfRowsInSection
+			return numberOfRows!
+		
+	}
+	
 
 	
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("playerOneCell", forIndexPath: indexPath)
 
-		let playerInfoEnity = self.playerInfo.entityList[indexPath.row]
+		let playerInfoEnity = self.playerInfo!.entityList[indexPath.row]
 		cell.textLabel?.text = playerInfoEnity.name
 		cell.detailTextLabel?.text = playerInfoEnity.clubID
 		//cell.textLabel?.text = "Test of table View"
@@ -68,7 +85,7 @@ class PlayerOneSelectorTableViewController: UITableViewController {
 			print("index path: \(indexPath)")
 			// Save the ShipmentEntity for this row
 			// on the ShipmentViewController
-			self.playerOneSelectedEntity = self.playerInfo.entityList[indexPath!.row]
+			self.playerOneSelectedEntity = self.playerInfo!.entityList[indexPath!.row]
 			//self.playerInfoList[indexPath!.row]
 			
 			// Save the Shipment business controller
@@ -78,7 +95,14 @@ class PlayerOneSelectorTableViewController: UITableViewController {
 
 		}
 		
-		
+		if segue.identifier == "unwindCancelPlayerOne" {
+			
+			
+			
+			//self.playerOneEntity = self.playerOneEntity!
+			
+			
+		}
 	}
 
 }

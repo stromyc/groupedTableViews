@@ -188,7 +188,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="phV-M8-RsA" kind="show" id="Yii-Xt-O0n"/>
+                                            <segue destination="phV-M8-RsA" kind="show" identifier="playerOneSegue" id="Yii-Xt-O0n"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="selectPlayerTwoCell" textLabel="JyG-SD-9U7" style="IBUITableViewCellStyleDefault" id="Wdw-lg-Ofu">
@@ -208,7 +208,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ZuM-aT-caa" kind="push" id="94P-jw-DEK"/>
+                                            <segue destination="ZuM-aT-caa" kind="push" identifier="playerTwoSegue" id="94P-jw-DEK"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -351,7 +351,7 @@
                                                     <rect key="frame" x="153" y="7" width="108" height="30"/>
                                                     <state key="normal" title="Calculate Score"/>
                                                     <connections>
-                                                        <action selector="calculateScoresButton:" destination="5dv-he-2tS" eventType="touchUpInside" id="KJF-MH-V5x"/>
+                                                        <action selector="calculateScoresButton:" destination="5dv-he-2tS" eventType="touchUpInside" id="3zD-Il-KJH"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -371,6 +371,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a08-BX-jXN">
                                                     <rect key="frame" x="160" y="7" width="96" height="30"/>
                                                     <state key="normal" title="Record Match"/>
+                                                    <connections>
+                                                        <action selector="RecordMatch:" destination="5dv-he-2tS" eventType="touchUpInside" id="lw3-K9-tPg"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -630,7 +633,7 @@
             <objects>
                 <tableViewController id="phV-M8-RsA" customClass="PlayerOneSelectorTableViewController" customModule="Grouped_Tableviewcells" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="uad-yW-kWJ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -660,7 +663,7 @@
                     <navigationItem key="navigationItem" id="bcR-wo-cZ2">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="fwa-Pb-hNv">
                             <connections>
-                                <segue destination="pUP-kX-k0c" kind="unwind" unwindAction="cancelSelectPlayerOneSegue:" id="qA1-vl-LVr"/>
+                                <segue destination="pUP-kX-k0c" kind="unwind" identifier="unwindCancelPlayerOne" unwindAction="cancelSelectPlayerOneSegue:" id="qA1-vl-LVr"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Select Player" id="8cc-30-9UF">
@@ -669,11 +672,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="orV-VD-m0r" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="pUP-kX-k0c" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1154" y="840"/>
+            <point key="canvasLocation" x="1159" y="394"/>
         </scene>
         <!--Club Players-->
         <scene sceneID="ZaN-QR-33C">
@@ -740,7 +744,7 @@
             <objects>
                 <tableViewController id="ZuM-aT-caa" customClass="PlayerTwoSelectorTableViewController" customModule="Grouped_Tableviewcells" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Sy5-5R-Gkn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -775,10 +779,11 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save Selected Player" id="aq4-4I-Woy">
                             <connections>
-                                <segue destination="DJD-JC-K9Y" kind="unwind" identifier="unwindSetPlayerTwoName" unwindAction="unwindSetPlayerTwoName:" id="QUt-Gy-Zar"/>
+                                <segue destination="DJD-JC-K9Y" kind="unwind" identifier="unwindSetPlayerTwoName" unwindAction="unwindSetPlayerTwoName:" id="tlj-YS-x4t"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2aS-HU-5Sm" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DJD-JC-K9Y" userLabel="Exit" sceneMemberID="exit"/>

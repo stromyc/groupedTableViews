@@ -9,12 +9,26 @@
 import UIKit
 //datePickerCell = NSIndexPath(forRow: 1, inSection: 2)
 
+
+
+
+
+
+
+
 enum PlayerScoringSection: Int {
 	case PlayerOneAndTwoSelector,  MatchWinner, MatchDate, MatchOutcome, CalculateResults
 	static let allValues = [PlayerOneAndTwoSelector, MatchWinner, MatchDate, MatchOutcome, CalculateResults]
 }
 
-class ScoringTableViewController: UITableViewController {
+class ScoringTableViewController: UITableViewController{
+	
+	
+	// create a playerInfo object pass it to vc's in segues, pass it back!
+	
+	
+	var delegate = EloCalculator()
+	
 	
     // Stores selected player info entity.
 	var playerInfo: PlayerInfo<PlayerInfoEntity>!
@@ -33,16 +47,33 @@ class ScoringTableViewController: UITableViewController {
 	// Scoring Calculator
 	var eloCalculator = EloCalculator()
 	
-	@IBAction func calculateScoresButton(sender: UIButton!) {
+	
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(animated)
+		print("The playerOne Entity: \(self.playerOneEntity)")
+		print("The PlayerTwo Eniity: \(self.playerTwoEntity)")
+	}
+	
+	
+	
+	@IBAction func calculateScoresButton(sender: AnyObject!) {
+		print("calcButton play1 score: \(playerOneEntity.score)")
+		print("calcButton play1 score: \(playerTwoEntity.score)")
+		
+	let newScores =	delegate.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
 		
 		
-		let newScores =  eloCalculator.scoreOpponents(playerOneEntity, playerTwo: playerTwoEntity, kFactor: .thirty)
-		let playerOneUpdatedScore = newScores.playerOneNewScore
-		let playerTwoUpdatedScore = newScores.playerTwoNewScore
+		//let newScores =  eloCalculator.calculatePlayerScores(self.playerOneEntity, playerTwo: self.playerTwoEntity, kFactor: .thirty)
+		print(delegate.updateScore((newScores.playerOneNewScore), playerTwo: (newScores.playerTwoNewScore)))
+		
+		
+		
+		//let playerOneUpdatedScore = newScores.playerOneNewScore
+		//let playerTwoUpdatedScore = newScores.playerTwoNewScore
 		print("player 1 old score: \(playerOneEntity.score)")
-		print(playerOneUpdatedScore)
+		//print(playerOneUpdatedScore)
 		print("player 2 old score: \(playerTwoEntity.score)")
-		print(playerTwoUpdatedScore)
+		//print(playerTwoUpdatedScore)
 	}
 	
 	// Player one selection outlet.
@@ -56,27 +87,43 @@ class ScoringTableViewController: UITableViewController {
 	
 	
 	
+	@IBAction func RecordMatch(sender: AnyObject) {
+		
+		let newScores =	delegate.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
+		delegate.updateScore(newScores.playerOneNewScore, playerTwo: newScores.playerTwoNewScore)
+		
+	}
 	
 	
 	
     @IBAction func cancelSelectPlayerOneSegue(segue:UIStoryboardSegue){
+		let tvc = segue.sourceViewController as! PlayerOneSelectorTableViewController
+		if tvc.playerOneEntity != nil {
+			self.playerOneEntity = tvc.playerOneEntity!
+		}
 		print("cancelCreatePlayer function called.")
 	}
     	
     // Sets player one after selecting from list of players.
 	@IBAction func unwindSetPlayerOneName(segue:UIStoryboardSegue) {
-		let tvc = segue.sourceViewController as! PlayerOneSelectorTableViewController
-        
+		let tvcOne = segue.sourceViewController as! PlayerOneSelectorTableViewController
+		
+	
         // Sets the selected playerOneEntity
-        self.playerOneEntity = tvc.playerOneSelectedEntity
-        
-		self.playerOneCellLabel.text = tvc.playerOneSelectedEntity.name
+        self.playerOneEntity = tvcOne.playerOneSelectedEntity
+		self.playerInfo = tvcOne.playerInfo
+		
+		self.playerOneCellLabel.text = tvcOne.playerOneSelectedEntity.name
 	}
 	
 	@IBAction func unwindSetPlayerTwoName(segue:UIStoryboardSegue) {
 		let tvc = segue.sourceViewController as! PlayerTwoSelectorTableViewController
         
         // Sets the selected playerTwoEntity
+		
+		self.playerInfo = tvc.playerInfo
+		
+		
         self.playerTwoEntity = tvc.playerTwoSelectedEntity
         
 		self.playerTwoCellLabel.text = tvc.playerTwoSelectedEntity.name
@@ -157,4 +204,95 @@ class ScoringTableViewController: UITableViewController {
         
         tableView.endUpdates()
     }
+	
+	
+	
+	
+	
+	
+	
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "playerOneSegue" {
+			
+			
+			let tvc = segue.destinationViewController as! PlayerOneSelectorTableViewController
+			
+			// Check to see if a player one has been set, if it has pass it forward to the other VC.
+				if self.playerOneEntity != nil {
+					
+					print("What is the value of this: \(self.playerOneEntity)")
+				tvc.playerOneEntity = self.playerOneEntity
+					
+					
+					print("playeroneentity passed and not nil: \(playerOneEntity)")
+			}
+			
+						print("Pass over to playerone table segue")
+			
+		}
+		
+		
+		
+		
+		// Need to pass over the playerInfo enity to other vc and pass the same one back between various vc's to save the same
+		// managed object context.
+		if segue.identifier == "playerTwoSegue" {
+			
+			
+			let tvc = segue.destinationViewController as! PlayerTwoSelectorTableViewController
+			
+			// Check to see if a player one has been set, if it has pass it forward to the other VC.
+			if self.playerTwoEntity != nil {
+				
+				print("What is the value of this: \(self.playerTwoEntity)")
+				tvc.playerTwoEntity = self.playerTwoEntity
+				
+				
+				print("playeroneentity passed and not nil: \(playerTwoEntity)")
+			}
+			
+			if self.playerInfo != nil {
+				tvc.playerInfo = self.playerInfo
+				print("Passed the playerInfo to VC2")
+			}
+			
+			print("Pass over to playerone table segue")
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 //datePickerCell = NSIndexPath(forRow: 1, inSection: 2)
 
 
@@ -251,6 +252,11 @@ class ScoringTableViewController: UITableViewController{
             if self.playerOneEntity != nil {
                 tvc.playerOneEntity = self.playerOneEntity
             }
+            // Check to see if a playerInfo MOC has been created.
+            if self.playerInfo != nil {
+                tvc.playerInfo = self.playerInfo
+            }
+
         case "playerTwoSegue": guard let tvc = segue.destinationViewController as? PlayerTwoSelectorTableViewController else {
             fatalError("Unexpected view controller in segue 00002")
             }

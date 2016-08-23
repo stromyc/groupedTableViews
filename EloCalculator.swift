@@ -35,12 +35,33 @@ enum KFactor {
 }
 
 
-
-
-
-
-
+enum Outcome {
+	case win
+	case lost
+	case draw
 	
+	var score : Double {
+		switch self {
+		case win : return 1.0
+		case lost : return 0.0
+		case draw : return 0.5
+		}
+	}
+	
+	var stringRawValue : String {
+		switch self {
+		case win : return "Win"
+		case lost : return "Lost"
+		case draw : return "Draw"
+		}
+	}
+	
+}
+
+
+
+
+
 
 class EloCalculator : ScoreCalculatorDelegate {
 	
@@ -68,30 +89,55 @@ class EloCalculator : ScoreCalculatorDelegate {
 	
 	
 	
-    enum Outcome {
-        case win
-        case lost
-        case draw
-        
-        var score : Double {
-            switch self {
-            case win : return 1.0
-            case lost : return 0.0
-            case draw : return 0.5
-            }
-        }
-        
-        var stringRawValue : String {
-            switch self {
-            case win : return "Win"
-            case lost : return "Lost"
-            case draw : return "Draw"
-            }
-        }
-        
-    }
 	
 	// Mark: ScoreCalculatorDelegate
+	
+	
+	func calculatePlayerScores( playerOneCurrentScore : Double, playerTwoCurrentScore : Double, kFactor: KFactor = KFactor.thirty, matchOutcomePlayerOne: Outcome) -> (playerOneNewScore: Double, playerTwoNewScore: Double) {
+		
+		var ratingA = (playerOneCurrentScore)
+		var ratingB = (playerTwoCurrentScore)
+		
+		// Determines expected rating.
+		func eRating(ratingA: Double, ratingB: Double) -> Double {
+			let exponent = (ratingB - ratingA)/400
+			let raised = pow(10, exponent)
+			return 1 / (raised + 1)
+		}
+		
+		
+		// Calculate the expected rating for each player.
+		var aExpectedScore = eRating(ratingA, ratingB: ratingB)
+		var bExpectedScore = eRating(ratingB, ratingB: ratingA)
+		
+		// Score for match 1 = win, 0 = lost, .5 = draw
+		var aScore = matchOutcomePlayerOne.score
+		var bScore: Double {
+			
+			
+			// Returns the opposite score for the opponent or draw.
+			switch aScore {
+			case 1.0 : return 0.0
+			case 0.5 : return 0.5
+			case 0.0 : return 1.0
+			default : return 9999.0
+			}
+			
+			
+		}
+		
+		let aNewElo = (kFactor.currentKFactor * (aScore - aExpectedScore)) + ratingA
+		
+		ratingPlayerOne = aNewElo
+		
+		let bNewElo = (kFactor.currentKFactor * (bScore - bExpectedScore)) + ratingB
+		
+		ratingPlayerTwo = bNewElo
+		
+		return (round(aNewElo), (round(bNewElo)))
+		
+	}
+
 	
 	func calculatePlayerScores( playerOneCurrentScore : Double, playerTwoCurrentScore : Double, kFactor: KFactor = KFactor.thirty) -> (playerOneNewScore: Double, playerTwoNewScore: Double) {
 		

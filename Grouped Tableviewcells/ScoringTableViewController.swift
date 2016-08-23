@@ -27,7 +27,7 @@ class ScoringTableViewController: UITableViewController{
 	// create a playerInfo object pass it to vc's in segues, pass it back!
 	
 	
-	var delegate = EloCalculator()
+//	var eloCalculator = EloCalculator()
 	
 	
     // Stores selected player info entity.
@@ -60,11 +60,26 @@ class ScoringTableViewController: UITableViewController{
 		print("calcButton play1 score: \(playerOneEntity.score)")
 		print("calcButton play1 score: \(playerTwoEntity.score)")
 		
-	let newScores =	delegate.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
+	let oldScoreA = playerOneEntity.score
+	let oldScoreB = playerTwoEntity.score
+		
+		// Returns selected outcome of match
+		let matchOutCome = winLoseDrawSelection(selectWinLoseDrawSegmentedButton)
+		
+		// Returns selected kFactor of match
+		let kFactor = kFactorSelection(selectKFactorSegmentedButton)
+		
+		let calcNewPlayerScores = eloCalculator.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: kFactor, matchOutcomePlayerOne: matchOutCome)
+		
+		
+		
+		
+		
+//	let newScores =	eloCalculator.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
 		
 		
 		//let newScores =  eloCalculator.calculatePlayerScores(self.playerOneEntity, playerTwo: self.playerTwoEntity, kFactor: .thirty)
-		print(delegate.updateScore((newScores.playerOneNewScore), playerTwo: (newScores.playerTwoNewScore)))
+		print(eloCalculator.updateScore((calcNewPlayerScores.playerOneNewScore), playerTwo: (calcNewPlayerScores.playerTwoNewScore)))
 		
 		
 		
@@ -84,13 +99,16 @@ class ScoringTableViewController: UITableViewController{
 	@IBOutlet var playerTwoCellLabel: UILabel!
 
 	
+	@IBOutlet var selectWinLoseDrawSegmentedButton: UISegmentedControl!
 	
+	
+	@IBOutlet var selectKFactorSegmentedButton: UISegmentedControl!
 	
 	
 	@IBAction func RecordMatch(sender: AnyObject) {
 		
-		let newScores =	delegate.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
-		delegate.updateScore(newScores.playerOneNewScore, playerTwo: newScores.playerTwoNewScore)
+		let newScores =	eloCalculator.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
+		eloCalculator.updateScore(newScores.playerOneNewScore, playerTwo: newScores.playerTwoNewScore)
 		
 	}
 	
@@ -161,7 +179,7 @@ class ScoringTableViewController: UITableViewController{
         case PlayerScoringSection.PlayerOneAndTwoSelector.rawValue :
             rows = 2
         case PlayerScoringSection.MatchWinner.rawValue :
-            rows = 1
+            rows = 2
         case PlayerScoringSection.MatchDate.rawValue :
 			// rows adjusted with datePicker in view or out of view.
             rows = dateCellRows
@@ -213,6 +231,27 @@ class ScoringTableViewController: UITableViewController{
 	
 	
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		
+//		switch segue.identifier!  {
+//		case "playerOneSegue":
+//			let tvc = segue.destinationViewController as! PlayerOneSelectorTableViewController
+//			
+//			// Check to see if a player one has been set, if it has pass it forward to the other VC.
+//			if self.playerOneEntity != nil {
+//				
+//				tvc.playerOneEntity = self.playerOneEntity
+//				
+//			}
+//			
+//			
+//			
+//		}
+//
+//		default:
+//			print("No Segue Exists")
+//		}
+		
+		
 		if segue.identifier == "playerOneSegue" {
 			
 			
@@ -221,11 +260,8 @@ class ScoringTableViewController: UITableViewController{
 			// Check to see if a player one has been set, if it has pass it forward to the other VC.
 				if self.playerOneEntity != nil {
 					
-					print("What is the value of this: \(self.playerOneEntity)")
 				tvc.playerOneEntity = self.playerOneEntity
 					
-					
-					print("playeroneentity passed and not nil: \(playerOneEntity)")
 			}
 			
 						print("Pass over to playerone table segue")
@@ -269,15 +305,43 @@ class ScoringTableViewController: UITableViewController{
 		
 		
 		
-		
 	}
 	
-	
+	func kFactorSelection(kFactorControl: UISegmentedControl) -> KFactor {
+		let kFactorChosen : KFactor
+		
+		switch kFactorControl.selectedSegmentIndex {
+		case 0: kFactorChosen = KFactor.twenty
+			
+		case 1: kFactorChosen = KFactor.thirty
+			
+		case 2 : kFactorChosen = KFactor.forty
+			
+		default:
+			kFactorChosen = KFactor.thirty
+		}
+		return kFactorChosen
+	}
 	
 	
 
 	
-	
+	func winLoseDrawSelection(winLoseDrawControl: UISegmentedControl) -> Outcome{
+		
+		let outComeChosen : Outcome
+		
+		switch winLoseDrawControl.selectedSegmentIndex
+			
+		{
+		case 0 : outComeChosen = Outcome.win
+			
+		case 1 : outComeChosen = Outcome.lost
+			
+		default: outComeChosen = Outcome.draw
+		}
+		
+		return outComeChosen
+	}
 	
 	
 	

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 7.0">
+    <entity name="ClubEntity" representedClassName="ClubEntity" syncable="YES">
+        <attribute name="clubName" attributeType="String" syncable="YES"/>
+        <attribute name="displayOrder" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="matchRecords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClubMatchRecordEntity" inverseName="club" inverseEntity="ClubMatchRecordEntity" syncable="YES"/>
+        <relationship name="playersInfo" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="PlayerInfoEntity" inverseName="club" inverseEntity="PlayerInfoEntity" syncable="YES"/>
+    </entity>
+    <entity name="ClubMatchRecordEntity" representedClassName=".ClubMatchRecordEntity" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="matchOutcomeString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="matchRecords" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="club" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClubEntity" inverseName="matchRecords" inverseEntity="ClubEntity" syncable="YES"/>
+    </entity>
+    <entity name="PlayerInfoEntity" representedClassName="PlayerInfoEntity" syncable="YES">
+        <attribute name="clubID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="displayOrder" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="draws" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" defaultValueString="&quot;No Email&quot;" syncable="YES"/>
+        <attribute name="latestResult" optional="YES" attributeType="String" defaultValueString="&quot;No result&quot;" syncable="YES"/>
+        <attribute name="losses" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="score" attributeType="Double" minValueString="0" maxValueString="1500" defaultValueString="700" syncable="YES"/>
+        <attribute name="wins" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="club" toMany="YES" deletionRule="No Action" destinationEntity="ClubEntity" inverseName="playersInfo" inverseEntity="ClubEntity" syncable="YES"/>
+        <relationship name="playerMatchRecord" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlayerMatchRecordEntity" inverseName="playerInfo" inverseEntity="PlayerMatchRecordEntity" syncable="YES"/>
+    </entity>
+    <entity name="PlayerMatchRecordEntity" representedClassName="PlayerMatchRecordEntity" syncable="YES">
+        <attribute name="matchOutcomeDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="matchOutcomeString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playerMatchRecord" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="playerInfo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PlayerInfoEntity" inverseName="playerMatchRecord" inverseEntity="PlayerInfoEntity" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ClubEntity" positionX="-83" positionY="-459" width="128" height="105"/>
+        <element name="ClubMatchRecordEntity" positionX="-81" positionY="-180" width="128" height="105"/>
+        <element name="PlayerInfoEntity" positionX="-468" positionY="-450" width="128" height="210"/>
+        <element name="PlayerMatchRecordEntity" positionX="-452" positionY="-159" width="128" height="103"/>
+    </elements>
+</model>

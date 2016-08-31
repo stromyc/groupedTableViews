@@ -8,14 +8,6 @@
 
 import UIKit
 import CoreData
-//datePickerCell = NSIndexPath(forRow: 1, inSection: 2)
-
-
-
-
-
-
-
 
 enum PlayerScoringSection: Int {
 	case PlayerOneAndTwoSelector,  MatchWinner, MatchDate, MatchOutcome, CalculateResults
@@ -25,12 +17,6 @@ enum PlayerScoringSection: Int {
 class ScoringTableViewController: UITableViewController{
 	
 	
-	// create a playerInfo object pass it to vc's in segues, pass it back!
-	
-	
-//	var eloCalculator = EloCalculator()
-	
-	
     // Stores selected player info entity.
 	var playerInfo: PlayerInfo<PlayerInfoEntity>!
 	var playerOneEntity: PlayerInfoEntity!
@@ -38,24 +24,52 @@ class ScoringTableViewController: UITableViewController{
     
 	
 	// Date pickerCell
+	
+	
     var datePickerCell : NSIndexPath?
     var rows = 0
     var dateCellRows = 1
-    
-    var dateFormatter = NSDateFormatter()
 	
+	var date = NSDate()
+	var dateFormatter : NSDateFormatter = {
+		let formatter = NSDateFormatter()
+		formatter.dateStyle = .ShortStyle
+		return formatter
+	}()
+	
+	func dateString() -> String {
+		return dateFormatter.stringFromDate(date)
+	}
 
 	// Scoring Calculator
 	var eloCalculator = EloCalculator()
+	var inlineDatePicker = InlineDatePicker()
 	
 	
+	
+	override func viewDidLoad() {
+        super.viewDidLoad()
+		
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(animated)
 		print("The playerOne Entity: \(self.playerOneEntity)")
 		print("The PlayerTwo Eniity: \(self.playerTwoEntity)")
+		
+		if playerOneEntity != nil && playerTwoEntity != nil {
+			calculateScoreButton.enabled = true 
+		}
+		
+		dateOfMatchLabel.text = dateString()
 	}
 	
-	
+// MARK: Calculate Score for match
 	
 	@IBAction func calculateScoresButton(sender: AnyObject!) {
 		print("calcButton play1 score: \(playerOneEntity.score)")
@@ -90,6 +104,59 @@ class ScoringTableViewController: UITableViewController{
 		//print(playerOneUpdatedScore)
 		print("player 2 old score: \(playerTwoEntity.score)")
 		//print(playerTwoUpdatedScore)
+		
+		
+		let matchOutcomeIndexPath = NSIndexPath(forRow: 0, inSection: 3)
+		
+		let winningPath = NSIndexPath(forRow: 0, inSection: 3)
+		let losingPath = NSIndexPath(forRow: 1, inSection: 3)
+		let scorePath = NSIndexPath(forRow: 2, inSection: 3)
+		
+		
+		let winNameAndLoseName = winLoseDrawWinner(selectWinLoseDrawSegmentedButton)
+		switch matchOutcomeIndexPath {
+		case winningPath :
+			guard let cell = tableView.cellForRowAtIndexPath(winningPath) else {
+				return
+			}
+			
+			
+			
+			
+			
+			cell.textLabel?.text = "Won: \(winNameAndLoseName.winningPlayer)"
+			cell.detailTextLabel?.text = ""
+			fallthrough
+			
+		case losingPath :
+			guard let cell = tableView.cellForRowAtIndexPath(losingPath) else {
+				return
+			}
+			cell.textLabel?.text = "Lost: \(winNameAndLoseName.losingPlayer)"
+			cell.detailTextLabel?.text = "Los"
+			fallthrough
+			
+		case scorePath :
+			guard let cell = tableView.cellForRowAtIndexPath(scorePath) else {
+				return
+			}
+			cell.textLabel?.text = "Score"
+			cell.detailTextLabel?.text = "Player One New score: \(calcNewPlayerScores.playerOneNewScore) Old score: \(oldScoreA)"
+
+		default:
+			break
+		}
+		
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
 	}
 	
 	// Player one selection outlet.
@@ -106,13 +173,21 @@ class ScoringTableViewController: UITableViewController{
 	@IBOutlet var selectKFactorSegmentedButton: UISegmentedControl!
 	
 	
+	
+	@IBOutlet var calculateScoreButton: UIButton!
+	
+	@IBOutlet var dateOfMatchLabel: UILabel!
+	
+	
+	@IBOutlet var datePicker: UIDatePicker!
+	
+	
 	@IBAction func RecordMatch(sender: AnyObject) {
 		
 		let newScores =	eloCalculator.calculatePlayerScores(playerOneEntity.score as Double, playerTwoCurrentScore: playerTwoEntity.score as Double, kFactor: KFactor.thirty)
 		eloCalculator.updateScore(newScores.playerOneNewScore, playerTwo: newScores.playerTwoNewScore)
 		
 	}
-	
 	
 	
     @IBAction func cancelSelectPlayerOneSegue(segue:UIStoryboardSegue){
@@ -140,13 +215,14 @@ class ScoringTableViewController: UITableViewController{
 	
         // Sets the selected playerOneEntity
         self.playerOneEntity = tvcOne.playerOneSelectedEntity
-				
+		
+		// Updates the cell text after selection.
 		self.playerOneCellLabel.text = tvcOne.playerOneSelectedEntity.name
 	}
 	
 	@IBAction func unwindSetPlayerTwoName(segue:UIStoryboardSegue) {
 		let tvc = segue.sourceViewController as! PlayerTwoSelectorTableViewController
-        
+		
         
         // Passes back the shared MOC so entities can be saved together.
 		self.playerInfo = tvc.playerInfo
@@ -161,17 +237,7 @@ class ScoringTableViewController: UITableViewController{
 	
 	
 	
-	override func viewDidLoad() {
-        super.viewDidLoad()
-		
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-  
+ // MARK: TableView Delegates
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
@@ -195,7 +261,7 @@ class ScoringTableViewController: UITableViewController{
 			// rows adjusted with datePicker in view or out of view.
             rows = dateCellRows
 		case PlayerScoringSection.MatchOutcome.rawValue :
-			rows = 3
+			rows = 4
 		case PlayerScoringSection.CalculateResults.rawValue :
 			rows = 2
         default:
@@ -219,14 +285,19 @@ class ScoringTableViewController: UITableViewController{
             dateCellRows = dateCellRows + 1
             datePickerCell = NSIndexPath(forRow: 1, inSection: 2)
             tableView.insertRowsAtIndexPaths([datePickerCell!], withRowAnimation: .Top)
+				
+				dateOfMatchLabel.text = dateFormatter.stringFromDate(datePicker.date)
+				
 			print("section two pressed")
             
             
             } else {
-        
+				
+			dateOfMatchLabel.text = dateFormatter.stringFromDate(datePicker.date)
 			dateCellRows = dateCellRows - 1
             tableView.deleteRowsAtIndexPaths([datePickerCell!], withRowAnimation: .Top)
             print("Section two pressed to remove")
+				
             datePickerCell = nil
             }
         }
@@ -234,8 +305,7 @@ class ScoringTableViewController: UITableViewController{
         tableView.endUpdates()
     }
 	
-	
-	
+		
     // Need to pass over the playerInfo enity to other vc and pass the same one back between various vc's to save the same
     // managed object context.
 	
@@ -274,6 +344,9 @@ class ScoringTableViewController: UITableViewController{
 		
 	}
 	
+	
+	
+	
 	func kFactorSelection(kFactorControl: UISegmentedControl) -> KFactor {
 		let kFactorChosen : KFactor
 		
@@ -310,15 +383,23 @@ class ScoringTableViewController: UITableViewController{
 		return outComeChosen
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	func winLoseDrawWinner(winLoseDrawControl: UISegmentedControl) -> (winningPlayer : String, losingPlayer: String) {
+		
+		switch winLoseDrawControl.selectedSegmentIndex
+		
+		{
+		// Returns player one as winner and player two as losing.
+		case 0 : return (playerOneEntity.name, playerTwoEntity.name)
+			
+		case 1 : return (playerTwoEntity.name, playerOneEntity.name)
+			
+		case 2 : return ("Match Tied", "Match Tied")
+		
+		default : return ("Error in winLoseDrawWinner", "error")
+	}
+
+	}
+	//datePickerCell = NSIndexPath(forRow: 1, inSection: 2)
 	
 	
 	

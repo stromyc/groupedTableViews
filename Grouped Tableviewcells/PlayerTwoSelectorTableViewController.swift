@@ -93,6 +93,9 @@ class PlayerTwoSelectorTableViewController: UITableViewController {
 		return cell
 	}
 	
+	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+		self.navigationItem.rightBarButtonItem?.enabled = true
+	}
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if segue.identifier == "unwindSetPlayerTwoName" {

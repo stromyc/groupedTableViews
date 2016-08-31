@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F0C721A1D6F762000D8D99D /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0C72191D6F762000D8D99D /* PDFGenerator.swift */; };
 		7F1DFD7A1D57B4060026AC19 /* CreateNewPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD791D57B4060026AC19 /* CreateNewPlayerViewController.swift */; };
 		7F1DFD7C1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD7B1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift */; };
 		7F1DFD801D63B9C50026AC19 /* EloCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1DFD7F1D63B9C50026AC19 /* EloCalculator.swift */; };
+		7F49DAFD1D6D2AD300BB0EBE /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F49DAFC1D6D2AD300BB0EBE /* Event.swift */; };
+		7F49DAFF1D6D2D4B00BB0EBE /* InlineDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F49DAFE1D6D2D4B00BB0EBE /* InlineDatePicker.swift */; };
 		7F6759AB1D52A63D00CD66E2 /* ClubCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6759AA1D52A63D00CD66E2 /* ClubCreationViewController.swift */; };
 		7FBDCF651D4F9C90007B6B66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FBDCF641D4F9C90007B6B66 /* AppDelegate.swift */; };
 		7FBDCF6A1D4F9C90007B6B66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7FBDCF681D4F9C90007B6B66 /* Main.storyboard */; };
@@ -53,9 +56,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F0C72191D6F762000D8D99D /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		7F1DFD791D57B4060026AC19 /* CreateNewPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewPlayerViewController.swift; sourceTree = "<group>"; };
 		7F1DFD7B1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerDetailTableTableViewController.swift; sourceTree = "<group>"; };
 		7F1DFD7F1D63B9C50026AC19 /* EloCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EloCalculator.swift; sourceTree = "<group>"; };
+		7F49DAFC1D6D2AD300BB0EBE /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		7F49DAFE1D6D2D4B00BB0EBE /* InlineDatePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InlineDatePicker.swift; sourceTree = "<group>"; };
 		7F6759AA1D52A63D00CD66E2 /* ClubCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClubCreationViewController.swift; sourceTree = "<group>"; };
 		7FBDCF611D4F9C8F007B6B66 /* Grouped Tableviewcells.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Grouped Tableviewcells.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FBDCF641D4F9C90007B6B66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,9 +135,20 @@
 			name = PlayerScoringVC;
 			sourceTree = "<group>";
 		};
+		7F49DAFB1D6D2ABA00BB0EBE /* DatePIcker */ = {
+			isa = PBXGroup;
+			children = (
+				7F49DAFC1D6D2AD300BB0EBE /* Event.swift */,
+				7F49DAFE1D6D2D4B00BB0EBE /* InlineDatePicker.swift */,
+			);
+			name = DatePIcker;
+			sourceTree = "<group>";
+		};
 		7FBDCF581D4F9C8F007B6B66 = {
 			isa = PBXGroup;
 			children = (
+				7F0C72191D6F762000D8D99D /* PDFGenerator.swift */,
+				7F49DAFB1D6D2ABA00BB0EBE /* DatePIcker */,
 				7FBDCF631D4F9C8F007B6B66 /* Grouped Tableviewcells */,
 				7F1DFD7E1D63B9A10026AC19 /* EloCalculator */,
 				7FBDCFC11D500F07007B6B66 /* Business Layer */,
@@ -360,11 +377,14 @@
 				7F6759AB1D52A63D00CD66E2 /* ClubCreationViewController.swift in Sources */,
 				7FBDCFB31D500AA2007B6B66 /* PlayerInfo.swift in Sources */,
 				7FBDCF991D4FEEB5007B6B66 /* PlayerTwoSelectorTableViewController.swift in Sources */,
+				7F49DAFF1D6D2D4B00BB0EBE /* InlineDatePicker.swift in Sources */,
 				7FBDCFA71D4FF1BA007B6B66 /* groupedTableviewCells.xcdatamodeld in Sources */,
 				7FBDCFBF1D500DE0007B6B66 /* ClubMatchRecordEntity.swift in Sources */,
 				7F1DFD7C1D5900CF0026AC19 /* PlayerDetailTableTableViewController.swift in Sources */,
 				7FBDCF971D4FEE89007B6B66 /* PlayerOneSelectorTableViewController.swift in Sources */,
 				7FBDCFB91D500B80007B6B66 /* PlayerInfoEntity.swift in Sources */,
+				7F49DAFD1D6D2AD300BB0EBE /* Event.swift in Sources */,
+				7F0C721A1D6F762000D8D99D /* PDFGenerator.swift in Sources */,
 				7FBDCFA11D4FF0DA007B6B66 /* ABusinessObject.swift in Sources */,
 				7FBDCF951D4FEC4C007B6B66 /* ScoringTableViewController.swift in Sources */,
 				7FBDCF651D4F9C90007B6B66 /* AppDelegate.swift in Sources */,
